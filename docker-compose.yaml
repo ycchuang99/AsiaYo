@@ -1,0 +1,27 @@
+services:
+  app:
+    container_name: asiayo-php
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html
+      - /var/www/html/vendor
+    user: ${UID}:${GID}
+    networks:
+      - asiayo-network
+  nginx:
+    container_name: asiayo-nginx
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./build/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - asiayo-network
+
+networks:
+  asiayo-network:
+    driver: bridge
