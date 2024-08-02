@@ -18,7 +18,7 @@ class OrderTest extends TestCase
 
     public function testCanValidateOrderFormat(): void
     {
-        $response = $this->postJson(route('orders.validateFormat'), [
+        $response = $this->postJson(route('orders.transform'), [
             'id' => '1',
             'name' => 'John Doe',
             'address' => [
@@ -42,7 +42,7 @@ class OrderTest extends TestCase
 
     public function testValidationFailsIfCurrencyIsInvalid(): void
     {
-        $response = $this->postJson(route('orders.validateFormat'), [
+        $response = $this->postJson(route('orders.transform'), [
             'id' => '1',
             'name' => 'John Doe',
             'address' => [
@@ -58,7 +58,7 @@ class OrderTest extends TestCase
 
     public function testValidationFailsIfNameContainsInvalidCharacters(): void
     {
-        $response = $this->postJson(route('orders.validateFormat'), [
+        $response = $this->postJson(route('orders.transform'), [
             'id' => '1',
             'name' => 'John Doe 123',
             'address' => [
@@ -76,7 +76,7 @@ class OrderTest extends TestCase
 
     public function testValidationFailsIfNameIsNotCapitalized(): void
     {
-        $response = $this->postJson(route('orders.validateFormat'), [
+        $response = $this->postJson(route('orders.transform'), [
             'id' => '1',
             'name' => 'john doe',
             'address' => [
@@ -94,7 +94,7 @@ class OrderTest extends TestCase
 
     public function testValidationFailsIfPriceIsOver2000(): void
     {
-        $response = $this->postJson(route('orders.validateFormat'), [
+        $response = $this->postJson(route('orders.transform'), [
             'id' => '1',
             'name' => 'John Doe',
             'address' => [
@@ -112,7 +112,7 @@ class OrderTest extends TestCase
 
     public function testValidationFailsIfCurrencyFormatIsWrong(): void
     {
-        $response = $this->postJson(route('orders.validateFormat'), [
+        $response = $this->postJson(route('orders.transform'), [
             'id' => '1',
             'name' => 'John Doe',
             'address' => [
@@ -130,7 +130,7 @@ class OrderTest extends TestCase
 
     public function testValidationFailsIfPriceIsOver2000WithUSD(): void
     {
-        $response = $this->postJson(route('orders.validateFormat'), [
+        $response = $this->postJson(route('orders.transform'), [
             'id' => '1',
             'name' => 'John Doe',
             'address' => [

@@ -9,9 +9,9 @@ class OrderController extends Controller
 {
     public function __construct(private OrderService $orderService) {}
 
-    public function validateFormat(ValidateFormatRequest $request)
+    public function transform(ValidateFormatRequest $request)
     {
-        $result = $this->orderService->validateFormat($request->validated());
+        $result = $this->orderService->transform($request->validated());
 
         return response()->json($result);
     }

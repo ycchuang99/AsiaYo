@@ -2,51 +2,42 @@
 
 namespace App\Services;
 
-use App\Utilities\CurrencyPriceTransformerUtil;
+use App\Support\CurrencyPriceTransformer;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class OrderService
 {
-    public function __construct() {}
+    public function __construct(private CurrencyPriceTransformer $currencyPriceTransformer) {}
 
-    public function validateFormat(array $data): array
+    public function transform(array $data): array
     {
-        $this->validateCurrency($data['currency']);
-
         if ($data['currency'] === 'USD') {
-            $data['price'] = CurrencyPriceTransformerUtil::transform(floatval($data['price']), 'USD', 'TWD');
+            $data['price'] = $this->currencyPriceTransformer->transform(floatval($data['price']), 'USD', 'TWD');
             $data['currency'] = 'TWD';
         }
 
-        $this->validateName($data['name']);
-        $this->validatePrice($data['price']);
+        $this->validateFormat($data);
 
         return $data;
     }
 
-    private function validateCurrency(string $currency): void
+    private function validateFormat(array $data): void
     {
-        if (! in_array($currency, ['TWD', 'USD'])) {
+        if (! in_array($data['currency'], ['TWD', 'USD'])) {
             throw new BadRequestHttpException(__('error.currency_invalid'));
         }
-    }
 
-    private function validateName(string $name): void
-    {
-        if (! preg_match('/^[a-zA-Z\s]+$/', $name)) {
+        if (! preg_match('/^[a-zA-Z\s]+$/', $data['name'])) {
             throw new BadRequestHttpException(__('error.name_contains_invalid_characters'));
         }
 
-        foreach (explode(' ', $name) as $word) {
+        foreach (explode(' ', $data['name']) as $word) {
             if (! preg_match('/^[A-Z]/', $word)) {
                 throw new BadRequestHttpException(__('error.name_not_capitalized'));
             }
         }
-    }
 
-    private function validatePrice(float $price): void
-    {
-        if ($price > 2000) {
+        if ($data['price'] > 2000) {
             throw new BadRequestHttpException(__('error.price_invalid'));
         }
     }

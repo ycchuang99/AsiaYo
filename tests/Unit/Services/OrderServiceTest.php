@@ -30,7 +30,7 @@ class OrderServiceTest extends TestCase
             'currency' => 'TWD',
         ];
 
-        $result = $this->orderService->validateFormat($data);
+        $result = $this->orderService->transform($data);
 
         $this->assertEquals($data, $result);
     }
@@ -51,7 +51,7 @@ class OrderServiceTest extends TestCase
             'currency' => 'JPY',
         ];
 
-        $this->orderService->validateFormat($data);
+        $this->orderService->transform($data);
     }
 
     public function testValidationFailsIfNameContainsInvalidCharacters(): void
@@ -70,7 +70,7 @@ class OrderServiceTest extends TestCase
             'currency' => 'TWD',
         ];
 
-        $this->orderService->validateFormat($data);
+        $this->orderService->transform($data);
     }
 
     public function testValidationFailsIfNameIsNotCapitalized(): void
@@ -89,7 +89,7 @@ class OrderServiceTest extends TestCase
             'currency' => 'TWD',
         ];
 
-        $this->orderService->validateFormat($data);
+        $this->orderService->transform($data);
     }
 
     public function testValidationFailsIfPriceIsInvalid(): void
@@ -108,6 +108,6 @@ class OrderServiceTest extends TestCase
             'currency' => 'TWD',
         ];
 
-        $this->orderService->validateFormat($data);
+        $this->orderService->transform($data);
     }
 }

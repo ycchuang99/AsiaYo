@@ -1,15 +1,18 @@
 <?php
 
-namespace Tests\Unit\Utilities;
+namespace Tests\Unit\Support;
 
-use App\Utilities\CurrencyPriceTransformerUtil;
+use App\Support\CurrencyPriceTransformer;
 use PHPUnit\Framework\TestCase;
 
-class CurrencyPriceTransformerUtilTest extends TestCase
+class CurrencyPriceTransformerTest extends TestCase
 {
+    private CurrencyPriceTransformer $currencyPriceTransformer;
+
     public function setUp(): void
     {
         parent::setUp();
+        $this->currencyPriceTransformer = app(CurrencyPriceTransformer::class);
     }
 
     public function testCanTransformCurrencyPrice(): void
@@ -18,7 +21,7 @@ class CurrencyPriceTransformerUtilTest extends TestCase
         $from = 'USD';
         $to = 'TWD';
 
-        $result = CurrencyPriceTransformerUtil::transform($price, $from, $to);
+        $result = $this->currencyPriceTransformer->transform($price, $from, $to);
 
         $this->assertEquals(31000, $result);
     }
@@ -31,6 +34,6 @@ class CurrencyPriceTransformerUtilTest extends TestCase
         $from = 'USD';
         $to = 'JPY';
 
-        CurrencyPriceTransformerUtil::transform($price, $from, $to);
+        $this->currencyPriceTransformer->transform($price, $from, $to);
     }
 }

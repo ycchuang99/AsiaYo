@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Utilities;
+namespace App\Support;
 
-class CurrencyPriceTransformerUtil
+class CurrencyPriceTransformer
 {
     const EXCHANGE_RATE = [
         'USD' => [
@@ -18,7 +18,7 @@ class CurrencyPriceTransformerUtil
      *
      * @throws \InvalidArgumentException
      */
-    public static function transform(float $price, string $from, string $to): float
+    public function transform(float $price, string $from, string $to): float
     {
         $exchangeRate = self::EXCHANGE_RATE[$from][$to] ?? -1;
 
